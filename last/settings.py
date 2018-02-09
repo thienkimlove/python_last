@@ -25,7 +25,7 @@ SECRET_KEY = '+z)h(by2o7*=!g5=vr$fp+aosg&dt=8s4vp&+vv(q1qq-o3^ak'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'frontend',
+    'django_datatables_view',
 ]
 
 MIDDLEWARE = [
@@ -147,6 +148,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/media/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 APP_NAME = 'Laravel'

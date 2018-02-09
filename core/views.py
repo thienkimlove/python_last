@@ -9,3 +9,6 @@ def index(request):
 
 def banners(request):
     return render(request, 'core/banners/index.html')
+
+def positions(request):
+    return render(request, 'core/positions/index.html')

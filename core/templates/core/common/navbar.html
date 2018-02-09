@@ -4,7 +4,7 @@
             <!-- Navigation Menu-->
             <ul class="navigation-menu">
                 <li class="has-submenu">
-                    <a href="{% url 'index' %}"><i class="md md-dashboard"></i>Trang chủ</a>
+                    <a href="{% url 'core_index' %}"><i class="md md-dashboard"></i>Trang chủ</a>
                 </li>
 
 
@@ -14,7 +14,7 @@
                         <ul class="submenu">
 
                             {% if perms.core.add_banner %}
-                                <li><a href="{% url 'index_banner' %}">Banners</a></li>
+                                <li><a href="{% url 'core_banner_index' %}">Banners</a></li>
                             {% endif %}
 
                             {% if perms.core.add_category %}
@@ -68,7 +68,9 @@
                     <li class="has-submenu">
                         <a href="#"><i class="md md-folder"></i>Thiết lập</a>
                         <ul class="submenu">
-                            <li><a href="#">Vị trí Banners</a></li>
+                            {% if perms.core.add_position %}
+                                <li><a href="{% url 'core_position_index' %}">Vị trí Banner</a></li>
+                            {% endif %}
                             <li><a href="#">Thiết lập Frontend</a></li>
                         </ul>
                     </li>

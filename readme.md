@@ -229,3 +229,24 @@ Assuming you have an application with an app_label `foo` and a model named `Bar`
     delete: user.has_perm('foo.delete_bar')
 ```
 The `Permission` model is rarely accessed directly.
+
+
+* Work with Models
+ 
+After create models , run 
+```textmate
+pip install Pillow
+python manage.py makemigrations
+python manage.py migrate
+``` 
+* DataTables from `https://bitbucket.org/pigletto/django-datatables-view`
+
+* Debug Application
+
+- Using `debug.log`
+
+- Add `logto = /var/log/uwsgi/%(project).log` to `uwsgi` file.
+
+- Check `/var/log/nginx/%(project)_error_log`
+
+- Sometime we using wrong environments.
