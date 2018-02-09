@@ -42,7 +42,7 @@ class PositionJson(BaseDatatableView):
             json_data.append({
                 'id' : item.id,
                 'name' : item.name,
-                'created' : item.created.strftime("%Y-%m-%d %H:%M:%S"),
+                'created_at' : item.created_at.strftime("%Y-%m-%d %H:%M:%S"),
                 'action' : '<a class="table-action-btn" title="Chỉnh sửa vị trí" href="#"><i class="fa fa-pencil text-success"></i></a>'
             })
         return json_data
