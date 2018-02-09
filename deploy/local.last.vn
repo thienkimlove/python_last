@@ -1,0 +1,17 @@
+server {
+    listen 80;
+    server_name local.last.vn;
+
+    access_log /var/log/nginx/last_vn_access.log;
+    error_log /var/log/nginx/last_vn_error.log;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        alias /var/www/html/last/static/;
+    }
+
+    location / {
+        include         uwsgi_params;
+        uwsgi_pass      unix:/run/uwsgi/last.sock;
+    }
+}

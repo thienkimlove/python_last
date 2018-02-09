@@ -1,0 +1,91 @@
+<div class="navbar-custom">
+    <div class="container">
+        <div id="navigation">
+            <!-- Navigation Menu-->
+            <ul class="navigation-menu">
+                <li class="has-submenu">
+                    <a href="{% url 'index' %}"><i class="md md-dashboard"></i>Trang chủ</a>
+                </li>
+
+
+                    <li class="has-submenu">
+
+                        <a href="#"><i class="md md-edit"></i>Nội dung Trang</a>
+                        <ul class="submenu">
+
+                            {% if perms.core.add_banner %}
+                                <li><a href="{% url 'index_banner' %}">Banners</a></li>
+                            {% endif %}
+
+                            {% if perms.core.add_category %}
+                                <li><a href="#">Chuyên mục</a></li>
+                            {% endif %}
+
+                            {% if perms.core.add_tag %}
+                                <li><a href="#">Từ khóa</a></li>
+                            {% endif %}
+
+                            {% if perms.core.add_post %}
+                                <li><a href="#">Bài viết</a></li>
+                            {% endif %}
+
+                            {% if perms.core.add_question %}
+                                <li><a href="#">Câu hỏi</a></li>
+                            {% endif %}
+
+                            {% if perms.core.add_video %}
+                                <li><a href="#">Videos</a></li>
+                            {% endif %}
+
+                            {% if perms.core.add_product %}
+                                <li><a href="#">Sản phẩm</a></li>
+                            {% endif %}
+
+                            {% if perms.core.add_store %}
+                                <li><a href="#">Phân phối</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+
+
+
+                <li class="has-submenu">
+                    <a href="#"><i class="md md-layers"></i>Đơn hàng và Liên hệ</a>
+                    <ul class="submenu">
+
+                        {% if perms.core.add_order %}
+                            <li><a href="#">Đơn hàng</a></li>
+                        {% endif %}
+
+                        {% if perms.core.add_contact %}
+                            <li><a href="#">Liên hệ</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+
+                    <li class="has-submenu">
+                        <a href="#"><i class="md md-folder"></i>Thiết lập</a>
+                        <ul class="submenu">
+                            <li><a href="#">Vị trí Banners</a></li>
+                            <li><a href="#">Thiết lập Frontend</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="has-submenu">
+                        <a href="#"><i class="md md-settings"></i>Hệ thống</a>
+                        <ul class="submenu">
+                            <li><a href="#">Thành viên</a></li>
+                            <li><a href="#">Loại thành viên</a></li>
+                            <li><a href="#">Các quyền</a></li>
+                        </ul>
+                    </li>
+
+
+            </ul>
+            <!-- End navigation menu        -->
+        </div>
+    </div> <!-- end container -->
+</div> <!-- end navbar-custom -->
