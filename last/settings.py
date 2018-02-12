@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'frontend',
     'django_datatables_view',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

@@ -250,3 +250,10 @@ python manage.py migrate
 - Check `/var/log/nginx/%(project)_error_log`
 
 - Sometime we using wrong environments.
+
+* Django Form 
+Basic Form without 3th-packages.
+
+`https://howchoo.com/g/ymuxmda4njk/introduction-to-django-forms`
+
+Customize Form : `https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html`
