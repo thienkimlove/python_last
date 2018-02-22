@@ -5,7 +5,7 @@
 
             <!-- Logo container-->
             <div class="logo">
-                <a href="{% url 'core_index' %}" class="logo"><span> {% custom_site_name %}</span></a>
+                <a href="{% url 'core:index' %}" class="logo"><span> {% custom_site_name %}</span></a>
             </div>
             <!-- End Logo container-->
 
@@ -13,7 +13,7 @@
             <div class="menu-extras">
 
                 <ul class="nav navbar-nav navbar-right pull-right">
-                    <li><a href="#"><i class="ti-power-off text-danger m-r-10"></i> Logout</a>
+                    <li><a href="{% url 'core:logout' %}"><i class="ti-power-off text-danger m-r-10"></i> Logout</a>
                     </li>
                 </ul>
                 <div class="menu-item">

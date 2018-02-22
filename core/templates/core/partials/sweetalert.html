@@ -1,0 +1,13 @@
+{% if messages %}
+    <script type="text/javascript">
+        {% for message in messages %}
+            swal({
+                title: "Thông báo",
+                text: "{{ message }}",
+                icon: "{{ message.tags }}",
+                timer: 1700,
+                buttons: false
+            });
+        {% endfor %}
+    </script>
+{% endif %}

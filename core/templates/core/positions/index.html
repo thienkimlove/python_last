@@ -30,7 +30,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right m-t-15">
-                <a href="{% url 'core_position_create' %}"><button type="button" class="btn btn-default dropdown-toggle waves-effect" >Tạo mới <span class="m-l-5"><i class="fa fa-plus"></i></span></button></a>
+                <a href="{% url 'core:position_create' %}"><button type="button" class="btn btn-default dropdown-toggle waves-effect" >Tạo mới <span class="m-l-5"><i class="fa fa-plus"></i></span></button></a>
             </div>
             <ol class="breadcrumb">
                 <li class="active">
@@ -115,7 +115,7 @@
                     serverSide: true,
                     processing: true,
                     ajax: {
-                        url: '{% url 'core_position_data_tables' %}',
+                        url: '{% url 'core:position_data_tables' %}',
                     data: function (d) {
                         d.name = $('input[name=name]').val();
                     }

@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    url(r'^oauth/', include('social_django.urls', namespace='social')),  # <--
     path('admin/', admin.site.urls),
     path('core/', include('core.urls')),
-    url(r'^', include('frontend.urls'))
+    url(r'^', include('frontend.urls')),
 ]

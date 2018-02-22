@@ -44,6 +44,6 @@ class PositionJson(BaseDatatableView):
                 'id' : item.id,
                 'name' : item.name,
                 'created_at' : item.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-                'action' : '<a class="table-action-btn" title="Chỉnh sửa vị trí" href="'+reverse('core_position_edit', kwargs={'pk': item.id})+'"><i class="fa fa-pencil text-success"></i></a>'
+                'action' : '<a class="table-action-btn" title="Chỉnh sửa vị trí" href="'+reverse('core:position_edit', kwargs={'pk': item.id})+'"><i class="fa fa-pencil text-success"></i></a>'
             })
         return json_data

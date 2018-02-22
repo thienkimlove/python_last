@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+from django.urls import reverse
+
 
 class TimeStampedModel(models.Model):
     """
@@ -18,6 +20,9 @@ class Position(TimeStampedModel):
     class Meta:
         db_table = 'positions'
 
+    def get_absolute_url(self):
+        return reverse('core:position_index')
+
 
 class Banner(TimeStampedModel):
     #class CharField(max_length=None, **options)
@@ -31,3 +36,6 @@ class Banner(TimeStampedModel):
     status = models.BooleanField(default=True)
     class Meta:
         db_table = 'banners'
+
+    def get_absolute_url(self):
+        return reverse('core:banner_index')
