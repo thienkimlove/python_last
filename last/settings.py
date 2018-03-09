@@ -37,13 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
-    'frontend',
     'django_datatables_view',
     'widget_tweaks',
-
     'social_django',
-
+    'core',
+    'frontend',
 ]
 
 MIDDLEWARE = [
@@ -93,7 +91,7 @@ WSGI_APPLICATION = 'last.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'python_last',
+        'NAME': 'phunghanh',
         'USER': 'root',
         'PASSWORD': 'tieungao',
         'HOST': '127.0.0.1',
@@ -141,10 +139,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 

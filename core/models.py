@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-from django.urls import reverse
+from django.urls import *
 
 
 class TimeStampedModel(models.Model):
@@ -39,3 +39,46 @@ class Banner(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('core:banner_index')
+
+class Network(TimeStampedModel):
+    name = models.CharField(),
+    slug = models.CharField()
+    click_url = models.CharField()
+    callback_url = models.CharField()
+    map_params = models.CharField()
+    extend_params = models.CharField()
+    status = models.BooleanField()
+    callback_allow_ip = models.CharField()
+    is_sms_callback = models.SmallIntegerField()
+    cron_url = models.CharField()
+    auto = models.BooleanField()
+    redirect_if_duplicate = models.CharField()
+    number_redirect = models.SmallIntegerField()
+    class Meta:
+        db_table = 'networks'
+
+class NetworkClick(TimeStampedModel):
+    network = models.ForeignKey(Network, on_delete=models.CASCADE)
+    log_click_url = models.CharField()
+    log_callback_url = models.CharField()
+    sign = models.CharField()
+    callback_ip = models.CharField()
+    redirect_to_end_point_url = models.CharField()
+    call_start_point_url = models.CharField()
+    call_start_point_status = models.BooleanField(default=True)
+    camp_ip = models.CharField()
+    camp_time = models.CharField()
+    callback_time = models.CharField()
+    callback_response = models.CharField()
+    origin = models.CharField()
+    time = models.IntegerField()
+    is_lead = models.BooleanField(default=False)
+    class Meta:
+        db_table = 'network_clicks'
+
+class Report(TimeStampedModel):
+    network = models.ForeignKey(Network, on_delete=models.CASCADE)
+    date = models.CharField()
+    phone = models.CharField()
+    class Meta:
+        db_table = 'reports'

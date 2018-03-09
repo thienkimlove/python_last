@@ -257,3 +257,23 @@ Basic Form without 3th-packages.
 `https://howchoo.com/g/ymuxmda4njk/introduction-to-django-forms`
 
 Customize Form : `https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html`
+
+* Please check the good ebook `Django pattern and practices` and `Two Scoop Django`
+
+for details about how we can resolve common problem with Django multi inherit.
+
+Please note that with Django, we have many way to resolve problems 
+
+for example using `Class-View` and `view functions`.
+
+When inherit, basic django class and function always provide way to override and add more context
+
+to basic class and function.
+
+* Thinking about customize current Django Admin
+
+- Method 1 (extends template) : `https://stackoverflow.com/questions/6583877/how-to-override-and-extend-basic-django-admin-templates` 
+
+- Method 2 : Using Django default UI and just change code `https://www.webforefront.com/django/admincustomlayout.html`
+
+- Method 3 : `https://medium.com/@hakibenita/how-to-turn-django-admin-into-a-lightweight-dashboard-a0e0bbf609ad`
