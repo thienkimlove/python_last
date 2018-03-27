@@ -1,10 +1,64 @@
+import json
 import uuid
 
 import datetime
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.core.cache import cache
 
 from core.models import *
+from last.settings import LOG_FILE
+
+
+def debug(msg):
+    with open(LOG_FILE, 'r') as original: data = original.read()
+    with open(LOG_FILE, 'w') as modified: modified.write(data +str(repr(msg))+"\n")
+
+def pass_click(d, index, network_id, request):
+    check_ip_pass = True
+    check_number = True
+
+    if d['allow_ip'] is not None:
+        check_ip_pass = False
+        ip_address = get_client_ip(request)
+        ip_address = ip_address.split('.')
+        for allow_ip in  d['allow_ip'].split(','):
+            allow_ip = allow_ip.strip()
+            ip_rule = allow_ip.split('.')
+            if (ip_rule[0] == '*' or ip_rule[0] == ip_address[0]) and (ip_rule[1] == '*' or ip_rule[1] == ip_address[1]):
+                check_ip_pass = True
+
+
+    if d['number_click_per_minute'] is not None and int(d['number_click_per_minute']) > 0:
+        check_number = False
+        i = datetime.datetime.now()
+        datetime_str_to_minute = i.strftime('%Y%m%d%H%M')
+        cache_key = str(network_id) + '_' + str(index) + '_' + str(datetime_str_to_minute)
+
+        if cache.get(cache_key) is not None:
+            current_cache = cache.get(cache_key)
+            if int(current_cache) < int(d['number_click_per_minute']):
+                check_number = True
+                cache.incr(cache_key)
+        else:
+            check_number = True
+            cache.delete_pattern(str(network_id) + "_" + str(index) + '_*')
+            cache.set(cache_key, 1)
+
+
+    return check_number and check_ip_pass
+
+def get_click_url(network, request):
+
+    network_urls = json.loads(network.click_url)
+
+    index = -1
+    for d in network_urls:
+        index = index + 1
+        if d['click_url'] is not None and pass_click(d, index, network.id, request):
+            return str(d['click_url'])
+
+    return 'http://media.seniorphp.net'
 
 
 def get_client_ip(request):
@@ -22,6 +76,8 @@ def process(request):
     
     redirect_url = None
     cookie_value_must_set = None
+
+    network_click_url = get_click_url(network, request)
 
     if cookie_name in request.COOKIES:
         cookie_value = request.COOKIES.get(cookie_name)
@@ -46,7 +102,7 @@ def process(request):
     
         if origin is None:
             origin = ''
-        if "?" not in network.click_url:
+        if "?" not in network_click_url:
             sign_url = '?'
         else:
             sign_url = '&'
@@ -63,9 +119,9 @@ def process(request):
             )
             click.save()
 
-            go_away_url =  network.click_url + sign_url + 'uid=' + str(click.id)
+            go_away_url =  network_click_url + sign_url + 'uid=' + str(click.id)
 
-            if click.id % 10000 == 0:
+            if network.auto == 1 and click.id % 10000 == 0:
                 unique_phone = uuid.uuid4().int
                 report = Report.objects.create(network=network, date=date_str, phone=unique_phone)
                 report.save()

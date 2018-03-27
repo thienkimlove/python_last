@@ -102,23 +102,15 @@ DATABASES = {
     }
 }
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'debug.log'),
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
 }
 
 
@@ -169,3 +161,6 @@ LOGIN_URL = 'core:login'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '260388185441-3g755s6hm5evmiej9kqco8fu18am4ae9.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'QOd6ShpDBLAhlA81SYAnFjkK'
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+LOG_FILE = os.path.join(BASE_DIR, 'debug.log')

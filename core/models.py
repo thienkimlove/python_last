@@ -3,7 +3,11 @@ from django.db import models
 # Create your models here.
 from django.urls import *
 
-
+class GeneralCharField(models.CharField):
+    def __init__(self, *args, **kwargs):
+        kwargs['max_length'] = 191
+        super().__init__(*args, **kwargs)
+        
 class TimeStampedModel(models.Model):
     """
     An abstract base class model that provides selfupdating
@@ -16,7 +20,7 @@ class TimeStampedModel(models.Model):
 
 
 class Position(TimeStampedModel):
-    name = models.CharField(max_length=191)
+    name = GeneralCharField(max_length=191)
     class Meta:
         db_table = 'positions'
 
@@ -41,36 +45,36 @@ class Banner(TimeStampedModel):
         return reverse('core:banner_index')
 
 class Network(TimeStampedModel):
-    name = models.CharField(),
-    slug = models.CharField()
-    click_url = models.CharField()
-    callback_url = models.CharField()
-    map_params = models.CharField()
-    extend_params = models.CharField()
+    name = GeneralCharField(),
+    slug = GeneralCharField()
+    click_url = GeneralCharField()
+    callback_url = GeneralCharField()
+    map_params = GeneralCharField()
+    extend_params = GeneralCharField()
     status = models.BooleanField()
-    callback_allow_ip = models.CharField()
+    callback_allow_ip = GeneralCharField()
     is_sms_callback = models.SmallIntegerField()
-    cron_url = models.CharField()
+    cron_url = GeneralCharField()
     auto = models.BooleanField()
-    redirect_if_duplicate = models.CharField()
+    redirect_if_duplicate = GeneralCharField()
     number_redirect = models.SmallIntegerField()
     class Meta:
         db_table = 'networks'
 
 class NetworkClick(TimeStampedModel):
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
-    log_click_url = models.CharField()
-    log_callback_url = models.CharField()
-    sign = models.CharField()
-    callback_ip = models.CharField()
-    redirect_to_end_point_url = models.CharField()
-    call_start_point_url = models.CharField()
+    log_click_url = GeneralCharField()
+    log_callback_url = GeneralCharField()
+    sign = GeneralCharField()
+    callback_ip = GeneralCharField()
+    redirect_to_end_point_url = GeneralCharField()
+    call_start_point_url = GeneralCharField()
     call_start_point_status = models.BooleanField(default=True)
-    camp_ip = models.CharField()
-    camp_time = models.CharField()
-    callback_time = models.CharField()
-    callback_response = models.CharField()
-    origin = models.CharField()
+    camp_ip = GeneralCharField()
+    camp_time = GeneralCharField()
+    callback_time = GeneralCharField()
+    callback_response = GeneralCharField()
+    origin = GeneralCharField()
     time = models.IntegerField()
     is_lead = models.BooleanField(default=False)
     class Meta:
@@ -78,7 +82,7 @@ class NetworkClick(TimeStampedModel):
 
 class Report(TimeStampedModel):
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
-    date = models.CharField()
-    phone = models.CharField()
+    date = GeneralCharField()
+    phone = GeneralCharField()
     class Meta:
         db_table = 'reports'
