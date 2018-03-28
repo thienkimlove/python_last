@@ -2,6 +2,8 @@ import json
 import uuid
 
 import datetime
+
+from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.core.cache import cache
@@ -18,16 +20,17 @@ def pass_click(d, index, network_id, request):
     check_ip_pass = True
     check_number = True
 
-    if d['allow_ip'] is not None:
+    allow_ips = d['allow_ip'].strip()
+
+    if allow_ips:
         check_ip_pass = False
         ip_address = get_client_ip(request)
         ip_address = ip_address.split('.')
-        for allow_ip in  d['allow_ip'].split(','):
+        for allow_ip in  allow_ips.split(','):
             allow_ip = allow_ip.strip()
             ip_rule = allow_ip.split('.')
             if (ip_rule[0] == '*' or ip_rule[0] == ip_address[0]) and (ip_rule[1] == '*' or ip_rule[1] == ip_address[1]):
                 check_ip_pass = True
-
 
     if d['number_click_per_minute'] is not None and int(d['number_click_per_minute']) > 0:
         check_number = False
@@ -45,7 +48,6 @@ def pass_click(d, index, network_id, request):
             cache.delete_pattern(str(network_id) + "_" + str(index) + '_*')
             cache.set(cache_key, 1)
 
-
     return check_number and check_ip_pass
 
 def get_click_url(network, request):
@@ -55,10 +57,10 @@ def get_click_url(network, request):
     index = -1
     for d in network_urls:
         index = index + 1
-        if d['click_url'] is not None and pass_click(d, index, network.id, request):
-            return str(d['click_url'])
+        if d['click_url'] and pass_click(d, index, network.id, request):
+            return { 'link_id' : int(d['link_id']), 'url' : str(d['click_url']) }
 
-    return 'http://media.seniorphp.net'
+    return { 'link_id' : 0, 'url' : 'http://media.seniorphp.net' }
 
 
 def get_client_ip(request):
@@ -77,7 +79,10 @@ def process(request):
     redirect_url = None
     cookie_value_must_set = None
 
-    network_click_url = get_click_url(network, request)
+    response_url = get_click_url(network, request)
+
+    network_click_url = response_url.get('url')
+    network_link_id = response_url.get('link_id')
 
     if cookie_name in request.COOKIES:
         cookie_value = request.COOKIES.get(cookie_name)
@@ -89,6 +94,8 @@ def process(request):
 
     else:
         cookie_value_must_set = 1
+
+    real_redirect = False
     
     if redirect_url is None and network.status == 1:
         request_full_url = 'http://media.seniorphp.net' + request.get_full_path()
@@ -127,11 +134,23 @@ def process(request):
                 report.save()
 
             redirect_url = go_away_url
+            real_redirect = True
         except Exception as e:
             return HttpResponse(repr(e))
      
     if redirect_url is not None:
-        response = redirect(redirect_url)
+        response = redirect()
+        # here we start redirect.
+        if real_redirect and network_link_id != 0:
+            i = datetime.datetime.now()
+            datetime_str_to_minute = i.strftime('%Y%m%d%H%M')
+            try:
+                obj = Traffic.objects.get(network=network, link_id=network_link_id, minute=int(datetime_str_to_minute))
+                obj.click = F('click') +1
+                obj.save()
+            except Traffic.DoesNotExist:
+                Traffic.objects.create(network=network, link_id=network_link_id, minute=int(datetime_str_to_minute), click=1)
+
         if cookie_value_must_set is not None:
             response.set_cookie(cookie_name, cookie_value_must_set, max_age=10000000)
          

@@ -23,6 +23,7 @@ class Position(TimeStampedModel):
     name = GeneralCharField(max_length=191)
     class Meta:
         db_table = 'positions'
+        managed=False
 
     def get_absolute_url(self):
         return reverse('core:position_index')
@@ -40,6 +41,7 @@ class Banner(TimeStampedModel):
     status = models.BooleanField(default=True)
     class Meta:
         db_table = 'banners'
+        managed=False
 
     def get_absolute_url(self):
         return reverse('core:banner_index')
@@ -60,6 +62,7 @@ class Network(TimeStampedModel):
     number_redirect = models.SmallIntegerField()
     class Meta:
         db_table = 'networks'
+        managed=False
 
 class NetworkClick(TimeStampedModel):
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
@@ -79,6 +82,7 @@ class NetworkClick(TimeStampedModel):
     is_lead = models.BooleanField(default=False)
     class Meta:
         db_table = 'network_clicks'
+        managed=False
 
 class Report(TimeStampedModel):
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
@@ -86,3 +90,21 @@ class Report(TimeStampedModel):
     phone = GeneralCharField()
     class Meta:
         db_table = 'reports'
+        managed=False
+
+
+class Link(TimeStampedModel):
+    network = models.ForeignKey(Network, on_delete=models.CASCADE)
+    link = GeneralCharField()
+    class Meta:
+        db_table = 'links'
+        managed=False
+
+class Traffic(models.Model):
+    network = models.ForeignKey(Network, on_delete=models.CASCADE)
+    link = models.ForeignKey(Link, on_delete=models.CASCADE)
+    minute = models.PositiveIntegerField()
+    click = models.PositiveIntegerField()
+    class Meta:
+        db_table = 'traffics'
+        managed=False
