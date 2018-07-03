@@ -96,7 +96,18 @@ DATABASES = {
         'PASSWORD': 'tieungao',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'OPTIONS' : {
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        }
+    },
+    'agent': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'lumen',
+        'USER': 'root',
+        'PASSWORD': 'tieungao',
+        'HOST': '115.146.123.46',
+        'PORT': '3306',
+        'OPTIONS': {
             'charset': 'utf8mb4',
         }
     }

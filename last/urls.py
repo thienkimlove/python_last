@@ -17,12 +17,13 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 
-from last.views import process
+from last.views import *
 
 urlpatterns = [
     url(r'^oauth/', include('social_django.urls', namespace='social')),  # <--
     path('admin/', admin.site.urls),
     path('core/', include('core.urls')),
     url(r'^camp/$', process, name='media_camp'),
+    url(r'^sms/$', test_sms, name='media_sms'),
     url(r'^', include('frontend.urls')),
 ]

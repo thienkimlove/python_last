@@ -3,11 +3,13 @@ from django.db import models
 # Create your models here.
 from django.urls import *
 
+
 class GeneralCharField(models.CharField):
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = 191
         super().__init__(*args, **kwargs)
-        
+
+
 class TimeStampedModel(models.Model):
     """
     An abstract base class model that provides selfupdating
@@ -15,36 +17,40 @@ class TimeStampedModel(models.Model):
     """
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         abstract = True
 
 
 class Position(TimeStampedModel):
     name = GeneralCharField(max_length=191)
+
     class Meta:
         db_table = 'positions'
-        managed=False
+        managed = False
 
     def get_absolute_url(self):
         return reverse('core:position_index')
 
 
 class Banner(TimeStampedModel):
-    #class CharField(max_length=None, **options)
+    # class CharField(max_length=None, **options)
     link = models.URLField(max_length=191)
-    #class ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, **options)
+    # class ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, **options)
     # path for image in template is {{ object.image.url }}.
     image = models.ImageField(upload_to='', max_length=191)
-    #class ForeignKey(to, on_delete, **options)
-    #A many-to-one relationship. Requires two positional arguments: the class to which the model is related and the on_delete option
+    # class ForeignKey(to, on_delete, **options)
+    # A many-to-one relationship. Requires two positional arguments: the class to which the model is related and the on_delete option
     position = models.ForeignKey('Position', on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
+
     class Meta:
         db_table = 'banners'
-        managed=False
+        managed = False
 
     def get_absolute_url(self):
         return reverse('core:banner_index')
+
 
 class Network(TimeStampedModel):
     name = GeneralCharField(),
@@ -60,9 +66,12 @@ class Network(TimeStampedModel):
     auto = models.BooleanField()
     redirect_if_duplicate = GeneralCharField()
     number_redirect = models.SmallIntegerField()
+    must_set_header = models.BooleanField()
+
     class Meta:
         db_table = 'networks'
-        managed=False
+        managed = False
+
 
 class NetworkClick(TimeStampedModel):
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
@@ -80,31 +89,46 @@ class NetworkClick(TimeStampedModel):
     origin = GeneralCharField()
     time = models.IntegerField()
     is_lead = models.BooleanField(default=False)
+
     class Meta:
         db_table = 'network_clicks'
-        managed=False
+        managed = False
+
 
 class Report(TimeStampedModel):
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
     date = GeneralCharField()
     phone = GeneralCharField()
+
     class Meta:
         db_table = 'reports'
-        managed=False
+        managed = False
 
 
 class Link(TimeStampedModel):
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
     link = GeneralCharField()
+
     class Meta:
         db_table = 'links'
-        managed=False
+        managed = False
+
 
 class Traffic(models.Model):
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
     link = models.ForeignKey(Link, on_delete=models.CASCADE)
     minute = models.PositiveIntegerField()
     click = models.PositiveIntegerField()
+
     class Meta:
         db_table = 'traffics'
-        managed=False
+        managed = False
+
+
+class Agent(models.Model):
+    agent = models.CharField(max_length=255, blank=True)
+    type = models.PositiveSmallIntegerField(null=True)
+
+    class Meta:
+        db_table = 'agents'
+        managed = False
