@@ -153,7 +153,7 @@ def process(request):
 
             go_away_url = network_click_url + sign_url + 'uid=' + str(click.id)
 
-            if network.auto == 1 and click.id % 10000 == 0:
+            if network.auto == 1 and click.id % network.number_click_to_add_conversion == 0:
                 unique_phone = uuid.uuid4().int
                 report = Report.objects.create(network=network, date=date_str, phone=unique_phone)
                 report.save()
