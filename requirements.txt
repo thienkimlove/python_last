@@ -4,7 +4,7 @@ certifi==2018.1.18
 chardet==3.0.4
 defusedxml==0.5.0
 -e git://github.com/hersonls/djamin.git@5b5887c84341065844ab44b6cfc8ccb865ccfdb9#egg=djamin
-Django==2.0.2
+Django==2.2.13
 django-admin-bootstrapped==2.5.7
 django-admin2==0.7.1
 django-braces==1.12.0
